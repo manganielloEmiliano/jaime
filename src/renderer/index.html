@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- style-src 'unsafe-inline': Vite inyecta el CSS como <style> en dev (HMR) — en build de producción
+         se extrae a un .css con <link> y no haría falta, pero se deja para no romper `npm run dev`.
+         media-src blob:: los <audio> del tab "Sesiones" reproducen vía URL.createObjectURL(blob). -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; media-src 'self' blob:"
+    />
+    <title>Jaime</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./main.tsx"></script>
+  </body>
+</html>

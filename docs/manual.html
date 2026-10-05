@@ -1,0 +1,451 @@
+<title>Manual de Jaime</title>
+<style>
+  /* ---- Tokens: copiados tal cual de src/renderer/styles.css ---- */
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f5f6f8;
+    --border: #e0e2e6;
+    --text: #1b1e24;
+    --text-muted: #767b86;
+    --accent: #3563e9;
+    --accent-text: #ffffff;
+    --danger: #d64545;
+    --success: #1f9254;
+    --record: #d64545;
+    --bubble-user: #3563e9;
+    --bubble-user-text: #ffffff;
+    --bubble-assistant: #eef0f4;
+    --bubble-assistant-text: #1b1e24;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      --bg: #16181d;
+      --bg-alt: #1e2128;
+      --border: #2c2f37;
+      --text: #eceef1;
+      --text-muted: #8a8f99;
+      --accent: #5b82f6;
+      --accent-text: #ffffff;
+      --danger: #e5695c;
+      --success: #3ac07b;
+      --record: #e5695c;
+      --bubble-user: #5b82f6;
+      --bubble-user-text: #ffffff;
+      --bubble-assistant: #262a33;
+      --bubble-assistant-text: #eceef1;
+    }
+  }
+
+  :root[data-theme='dark'] {
+    --bg: #16181d;
+    --bg-alt: #1e2128;
+    --border: #2c2f37;
+    --text: #eceef1;
+    --text-muted: #8a8f99;
+    --accent: #5b82f6;
+    --accent-text: #ffffff;
+    --danger: #e5695c;
+    --success: #3ac07b;
+    --record: #e5695c;
+    --bubble-user: #5b82f6;
+    --bubble-user-text: #ffffff;
+    --bubble-assistant: #262a33;
+    --bubble-assistant-text: #eceef1;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg-alt);
+    color: var(--text);
+    font-family: system-ui, sans-serif;
+    line-height: 1.55;
+  }
+
+  .page { max-width: 720px; margin: 0 auto; padding: 24px 20px 80px; }
+
+  .sheet {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  /* ---- Mockup fiel del topbar real de la app (ver App.tsx) ---- */
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .topbar__title { font-weight: 600; margin-right: 12px; }
+  .tab-button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  .tab-button--active { color: var(--text); background: var(--bg-alt); font-weight: 600; }
+  .topbar__close { margin-left: auto; color: var(--text-muted); font-size: 13px; padding: 4px 8px; }
+
+  /* ---- Cuerpo del manual ---- */
+  .doc { padding: 28px 28px 8px; }
+
+  h1 { font-size: 22px; margin: 0 0 2px; }
+  .doc__subtitle { color: var(--text-muted); font-size: 13px; margin: 0 0 22px; }
+
+  h2 {
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin: 32px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  section:first-of-type h2 { margin-top: 0; }
+
+  h3 { font-size: 14px; font-weight: 600; margin: 18px 0 8px; color: var(--text); }
+
+  p { margin: 0 0 10px; font-size: 14px; }
+  p:last-child { margin-bottom: 0; }
+  .lede { color: var(--text-muted); }
+
+  code {
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 0.88em;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.05em 0.4em;
+  }
+
+  ul.plain { margin: 0 0 10px; padding-left: 20px; font-size: 14px; }
+  ul.plain li { margin-bottom: 6px; }
+
+  ol.steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  ol.steps > li {
+    counter-increment: step;
+    position: relative;
+    padding: 2px 0 2px 34px;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  ol.steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---- Botones y controles, iguales a los de la app (ver styles.css) ---- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  .btn--record { background: var(--record); border-color: var(--record); color: #fff; font-weight: 600; }
+  .btn--stop { color: var(--danger); border-color: var(--danger); }
+  .btn--primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+
+  .mockup-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 10px 0 16px;
+    flex-wrap: wrap;
+  }
+  .mockup-row select {
+    font-size: 13px;
+    padding: 4px 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+  }
+  .record-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--record);
+    display: inline-block;
+  }
+  .mockup-row__indicator { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); }
+
+  /* ---- Callouts ---- */
+  .callout { border-radius: 8px; border: 1px solid var(--border); background: var(--bg-alt); padding: 10px 12px; margin: 12px 0; }
+  .callout p { color: var(--text-muted); font-size: 13px; margin: 0; }
+  .callout__label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .callout--tip { border-left: 3px solid var(--success); }
+  .callout--tip .callout__label { color: var(--success); }
+  .callout--warn { border-left: 3px solid var(--danger); }
+  .callout--warn .callout__label { color: var(--danger); }
+
+  /* ---- Tablas ---- */
+  .tablewrap { overflow-x: auto; margin: 10px 0 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  thead th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); background: var(--bg-alt); }
+  tbody tr:last-child td { border-bottom: none; }
+
+  .pathrow {
+    display: flex; align-items: center; gap: 8px;
+    font-family: ui-monospace, Consolas, monospace; font-size: 12.5px;
+    background: var(--bg-alt); border: 1px solid var(--border); border-radius: 6px;
+    padding: 7px 10px; margin-bottom: 6px; color: var(--text-muted);
+  }
+  .pathrow b { color: var(--text); font-family: system-ui, sans-serif; font-weight: 600; flex-shrink: 0; }
+
+  .tree {
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 12.5px;
+    line-height: 1.65;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 0 0 8px;
+    color: var(--text-muted);
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .tree b { color: var(--text); font-weight: 600; }
+  .tree .file { color: var(--accent); }
+
+  /* ---- Mini réplica del chat de Q&A ---- */
+  .chat-mock { display: flex; flex-direction: column; gap: 8px; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; margin: 10px 0 16px; }
+  .bubble { max-width: 80%; padding: 8px 12px; border-radius: 14px; font-size: 13px; line-height: 1.4; }
+  .bubble--user { align-self: flex-end; background: var(--bubble-user); color: var(--bubble-user-text); border-bottom-right-radius: 4px; }
+  .bubble--assistant { align-self: flex-start; background: var(--bubble-assistant); color: var(--bubble-assistant-text); border-bottom-left-radius: 4px; }
+
+  footer { padding: 16px 28px 24px; color: var(--text-muted); font-size: 12px; display: flex; justify-content: space-between; }
+
+  .printbar { display: flex; justify-content: flex-end; padding: 0 0 12px; }
+  .printbar .btn { cursor: pointer; }
+
+  @media print {
+    body { background: #fff; }
+    .page { max-width: 100%; padding: 0; }
+    .sheet { border: none; border-radius: 0; }
+    .printbar { display: none; }
+    section { break-inside: avoid-page; }
+    table, .pathrow, .callout, .mockup-row { break-inside: avoid; }
+    @page { margin: 16mm 14mm; }
+  }
+</style>
+
+<div class="page">
+  <div class="printbar"><button class="btn btn--primary" onclick="window.print()">Guardar como PDF</button></div>
+
+  <div class="sheet">
+    <nav class="topbar">
+      <span class="topbar__title">Jaime</span>
+      <span class="tab-button">Transcripción</span>
+      <span class="tab-button">Sesiones</span>
+      <span class="tab-button tab-button--active">Ajustes</span>
+      <span class="topbar__close">✕</span>
+    </nav>
+
+    <div class="doc">
+      <h1>Manual de Jaime</h1>
+      <p class="doc__subtitle">Notas y Q&amp;A en vivo durante llamadas de Microsoft Teams — instalación y primeros pasos · v0.0.1</p>
+
+      <section id="requisitos">
+        <h2>Antes de instalar</h2>
+        <p class="lede">Jaime es una app de escritorio para Windows. La transcripción en vivo corre local por default — no hace falta cuenta ni internet para arrancar.</p>
+        <ul class="plain">
+          <li>Windows 10 u 11, 64 bits.</li>
+          <li>Opcional: una API key de Gemini, DeepSeek o AssemblyAI si preferís esos proveedores en vez de las opciones locales/gratuitas (ver sección "Configuración inicial").</li>
+        </ul>
+
+        <div class="callout callout--warn">
+          <span class="callout__label">Usá auriculares para "Vos y otros"</span>
+          <p>
+            Ese modo graba dos canales por separado: el micrófono como "Vos" y el audio de sistema (loopback) como "Otros". Si no usás auriculares, el parlante reproduce la voz de la otra persona y el micrófono la vuelve a captar — queda mezclada adentro de tu propio canal "Vos", no solo "se escucha de fondo".
+          </p>
+          <p style="margin-top:6px;">
+            Con whisper local esto es peor de lo que parece: el filtro de silencio del canal "Vos" (que evita transcribir cuando no hablás) deja de activarse mientras el otro habla, porque tu mic ya no está en silencio — así que su voz puede terminar transcripta y atribuida a "Vos" en el refinado. Con auriculares, este problema no existe.
+          </p>
+        </div>
+      </section>
+
+      <section id="instalacion">
+        <h2>Instalación</h2>
+        <ol class="steps">
+          <li>Pedile a quien te compartió la app el archivo <code>Jaime Setup 0.0.1.exe</code> y guardalo en tu PC.</li>
+          <li>Hacé doble click para ejecutarlo. No es un instalador "de un click": te deja elegir la carpeta de instalación.</li>
+          <li>Si Windows SmartScreen avisa <strong>"Windows protegió su PC"</strong> — normal, el instalador todavía no está firmado digitalmente — tocá <strong>"Más información"</strong> y después <strong>"Ejecutar de todas formas"</strong>.</li>
+          <li>Esperá a que termine de copiar los archivos. Pesa varios GB porque incluye los modelos de reconocimiento de voz local: no hace falta descargar nada aparte.</li>
+          <li>Abrí <strong>Jaime</strong> desde el menú Inicio.</li>
+        </ol>
+        <div class="callout callout--tip">
+          <span class="callout__label">Si ya tenías una versión instalada</span>
+          <p>No hace falta desinstalar antes. El instalador detecta la instalación anterior y la reemplaza solo. Cerrá la app si está abierta — si el proceso sigue corriendo, no puede sobreescribir el ejecutable.</p>
+        </div>
+      </section>
+
+      <section id="ajustes">
+        <h2>Configuración inicial</h2>
+        <p class="lede">Todo esto vive en la pestaña <strong>Ajustes</strong>. Con los valores por default ya podés grabar y transcribir — el Q&amp;A por chat es lo único que pide una key.</p>
+
+        <h3>Dónde se guarda lo que grabás</h3>
+        <p>Son <strong>dos carpetas base independientes</strong> — audio y transcripciones no viven juntas por default. Cada grabación crea, en cada una, una subcarpeta con el mismo nombre: la fecha y hora exacta en que arrancaste a grabar (<code>AAAA-MM-DD_HH-MM-SS</code>).</p>
+        <div class="pathrow"><b>Audios</b>Documentos/Jaime/Audios</div>
+        <div class="pathrow"><b>Transcripciones</b>Documentos/Jaime/Transcripciones</div>
+        <p class="lede" style="font-size:12.5px; margin-top:-4px;">Se pueden cambiar con "Elegir carpeta" — por ejemplo, a una carpeta sincronizada con Drive o OneDrive.</p>
+
+        <p style="margin-top:14px;">Para una sesión grabada en modo "Vos y otros", queda así:</p>
+        <pre class="tree"><b>Documentos/Jaime/</b>
+├─ Audios/
+│  └─ <b>2026-09-07_14-32-05/</b>
+│     ├─ <span class="file">you.wav</span>
+│     └─ <span class="file">other.wav</span>
+└─ Transcripciones/
+   └─ <b>2026-09-07_14-32-05/</b>
+      ├─ <span class="file">transcript.md</span>
+      └─ <span class="file">metadata.json</span></pre>
+        <p class="lede" style="font-size:12.5px;">"Solo vos" o "Solo el sistema" guardan un único <code>.wav</code> — solo el canal que elegiste al grabar.</p>
+
+        <p style="margin-top:12px;">El <code>transcript.md</code> queda en texto plano, legible por vos o por cualquier agente:</p>
+        <pre class="tree"># Reunión con el cliente (42 min, modo: you-and-other, motor: whisper-local)
+
+## Vos
+
+Buenas, arrancamos con el resumen de la propuesta...
+
+## Otros
+
+Perfecto, dale, contanos los números primero...</pre>
+        <p class="lede" style="font-size:12.5px;">El botón 📂 "Abrir carpeta" (en Ajustes y en Sesiones) siempre abre la carpeta de <strong>Transcripciones</strong> — ahí están <code>transcript.md</code> y <code>metadata.json</code>; el <code>.wav</code> queda en la carpeta de Audios, aparte.</p>
+
+        <h3>Transcripción (STT)</h3>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Proveedor</th><th>Cómo funciona</th><th>Requiere</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Local · whisper.cpp</strong><br><span class="lede" style="font-size:11.5px;">default</span></td>
+                <td>100% en tu máquina, sin costo. Transcribe por tandas de ~6s, no palabra por palabra.</td>
+                <td>Nada — ya viene configurado.</td>
+              </tr>
+              <tr>
+                <td><strong>AssemblyAI</strong></td>
+                <td>Streaming real en la nube, texto parcial visible mientras hablás.</td>
+                <td>API key + internet · ≈ USD 0,15/hora.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Proveedor de LLM para el Q&amp;A del chat</h3>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Proveedor</th><th>Key</th><th>Dónde conseguirla</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Gemini</strong></td><td>Sí</td><td>aistudio.google.com/apikey</td></tr>
+              <tr><td><strong>DeepSeek</strong></td><td>Sí</td><td>platform.deepseek.com</td></tr>
+              <tr><td><strong>Claude (Claude Code)</strong></td><td>No</td><td>Usa tu sesión de <code>claude</code> ya logueada en la máquina — corre contra tu suscripción, no factura por token.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="lede" style="font-size:12.5px;">En cualquiera de los tres: pegá la key (si aplica) y tocá "Probar y guardar" — Jaime la valida antes de guardarla.</p>
+      </section>
+
+      <section id="grabar">
+        <h2>Grabar tu primera llamada</h2>
+        <p class="lede">Los controles de grabación están siempre arriba de todo, en la pestaña "Transcripción".</p>
+
+        <div class="mockup-row">
+          <select disabled><option>Vos y otros</option></select>
+          <button class="btn btn--record">● Grabar</button>
+        </div>
+
+        <ol class="steps">
+          <li>Elegí el modo de captura en el desplegable: <strong>Vos y otros</strong>, <strong>Solo vos</strong> o <strong>Solo el sistema</strong>, según qué querés transcribir.</li>
+          <li>Tocá <strong>"● Grabar"</strong>. La primera vez, Windows va a pedir permiso de micrófono (y de captura de pantalla, para el audio del sistema) — hay que aceptarlo.</li>
+        </ol>
+
+        <div class="mockup-row">
+          <span class="mockup-row__indicator"><span class="record-dot"></span> Grabando 00:42</span>
+          <button class="btn">⏸ Pausar</button>
+          <button class="btn btn--stop">⏹ Detener</button>
+        </div>
+
+        <ol class="steps" start="3">
+          <li>Durante la llamada, el texto reconocido va apareciendo en vivo, etiquetado <strong>"Vos:"</strong> / <strong>"Otros:"</strong>. Podés pausar y reanudar cuando quieras.</li>
+          <li>Al terminar, tocá <strong>"⏹ Detener"</strong> — vas a ver "Guardando..." mientras Jaime refina el resultado (ver abajo).</li>
+        </ol>
+
+        <h3>Qué pasa exactamente al tocar "Detener" (el refinamiento)</h3>
+        <p>Mientras grababas, whisper local transcribía en tandas cortas (~6s) con un modelo chico, priorizando velocidad — es el texto que viste aparecer en vivo. Al cortar, Jaime vuelve a leer <strong>el <code>.wav</code> entero de cada canal</strong> y lo retranscribe de punta a punta, en ventanas de 30s, con <strong>large-v3-turbo</strong>, un modelo bastante más preciso (y ~4 veces más lento) — por eso "Guardando..." tarda: en una llamada larga puede ser un par de minutos, no es que se colgó. Ese resultado es el que ves en el cuadro <strong>"Refinado"</strong>, y el que queda escrito en <code>transcript.md</code>.</p>
+        <p style="font-size: 13px; color: var(--text-muted);">Con <strong>AssemblyAI</strong> no hay segunda pasada: como el streaming ya te da resultados finales en vivo, "Refinado" ahí es directamente esos resultados concatenados, sin volver a pasar por el audio.</p>
+
+        <div class="callout callout--warn">
+          <span class="callout__label">Las correcciones a mano no se graban solas</span>
+          <p>Si editás el texto del cuadro "Refinado" (para arreglar algo mal transcripto), esa corrección solo vive en la ventana abierta: la usa el chat de Q&amp;A de <em>esta</em> sesión, pero <strong>no se escribe de vuelta en <code>transcript.md</code></strong>. Si cerrás Jaime o volvés a abrir esa grabación desde "Sesiones" más tarde, vas a ver el texto original, sin tu corrección.</p>
+        </div>
+        <div class="callout callout--tip">
+          <span class="callout__label">🔄 Refinar, desde Sesiones</span>
+          <p>La vista completa de una sesión pasada (Sesiones → doble click) tiene su propio botón <strong>"🔄 Refinar"</strong>: vuelve a transcribir con whisper local desde el <code>.wav</code> ya guardado y esta vez sí <strong>sobreescribe <code>transcript.md</code> en disco</strong>. Es la forma real de mejorar de forma permanente una sesión grabada con AssemblyAI, o de reintentar si el resultado automático no convenció.</p>
+        </div>
+
+        <h3>Preguntarle a la conversación</h3>
+        <p>Con el texto ya en pantalla, escribí una pregunta en el chat de abajo — el proveedor de LLM que configuraste responde en base a esa conversación.</p>
+        <div class="chat-mock">
+          <div class="bubble bubble--user">¿Qué quedó pendiente para el viernes?</div>
+          <div class="bubble bubble--assistant">Quedó pendiente enviar la propuesta revisada y agendar la firma.</div>
+        </div>
+      </section>
+
+      <section id="ventana">
+        <h2>Mientras estás en la llamada</h2>
+        <p>Si hacés click afuera de Jaime — por ejemplo, para volver a la ventana de Teams — la app se achica sola a una burbuja flotante en una esquina de la pantalla. No corta la grabación ni pierde el chat: sigue grabando en segundo plano.</p>
+        <ul class="plain">
+          <li>Tocá la <strong>burbuja de chat</strong> para abrir una ventanita chica solo con las preguntas y respuestas.</li>
+          <li>Tocá el ícono de <strong>expandir</strong> en cualquiera de los dos modos para volver a la app completa.</li>
+        </ul>
+      </section>
+
+      <section id="sesiones">
+        <h2>Sesiones pasadas</h2>
+        <p>La pestaña <strong>"Sesiones"</strong> lista todas las grabaciones anteriores.</p>
+        <ul class="plain">
+          <li><strong>Un click</strong> expande el transcript y el audio de cada canal, ahí mismo en la lista.</li>
+          <li><strong>Doble click</strong> abre la vista completa de esa sesión, con su propio chat de Q&amp;A y el botón <strong>"🔄 Refinar"</strong> (ver sección anterior) para re-transcribir y sobreescribir el <code>transcript.md</code> guardado.</li>
+          <li>Los íconos de cada fila permiten <strong>abrir la carpeta</strong> (útil para pasarle la sesión a Claude Code u otro agente), <strong>renombrar</strong> el título, o <strong>borrarla</strong> (pide confirmación).</li>
+          <li>También podés subir un <strong>audio ya grabado</strong> desde la pestaña "Transcripción" — Jaime lo transcribe entero y lo suma a esta lista como una sesión más.</li>
+        </ul>
+      </section>
+    </div>
+
+    <footer>
+      <span>Jaime · manual interno</span>
+      <span>v0.0.1</span>
+    </footer>
+  </div>
+</div>

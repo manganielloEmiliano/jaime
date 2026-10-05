@@ -1,0 +1,64 @@
+{
+  "name": "jaime",
+  "version": "0.0.2",
+  "description": "Jaime — notas y Q&A en vivo durante llamadas de Microsoft Teams",
+  "main": "out/main/index.js",
+  "private": true,
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "dist:win": "electron-vite build && electron-builder --win nsis"
+  },
+  "build": {
+    "appId": "com.jaime.app",
+    "productName": "Jaime",
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/@kutalia/whisper-node-addon/**/*"
+    ],
+    "files": [
+      "out/**/*",
+      "package.json",
+      "!node_modules/@kutalia/whisper-node-addon/dist/mac-arm64",
+      "!node_modules/@kutalia/whisper-node-addon/dist/mac-x64",
+      "!node_modules/@kutalia/whisper-node-addon/dist/linux-x64"
+    ],
+    "extraResources": [
+      {
+        "from": "models",
+        "to": "models",
+        "filter": [
+          "ggml-small.bin",
+          "ggml-large-v3-turbo.bin"
+        ]
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "dependencies": {
+    "@kutalia/whisper-node-addon": "^1.1.0",
+    "assemblyai": "^4.37.1",
+    "dotenv": "^17.4.2",
+    "electron-audio-loopback": "^1.0.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "electron": "^44.2.0",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^5.0.0",
+    "typescript": "^5.5.4",
+    "vite": "^7.3.6"
+  }
+}
